@@ -1,4 +1,4 @@
-const socket = io(`ws://localhost:5000`);
+const socket = io();//`ws://localhost:3000`);
 
 let players = [];
 let clientPlayers = {};

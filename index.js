@@ -3,7 +3,11 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, { /* options */ });
+const io = new Server(httpServer, { 
+	cors: {
+		origin: "https://lyssie.org"
+	}
+});
 
 const TICK_RATE = 30;
 
@@ -206,9 +210,9 @@ io.on("connect", (socket) => {
     })
 })
 
-
+app.use(require('cors')());
 app.use(express.static("public"));
 
-httpServer.listen(5000);
+httpServer.listen(3000);
 
 setInterval(tick, 1000/TICK_RATE);
