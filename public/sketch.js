@@ -1,13 +1,13 @@
-const socket = io();//`ws://localhost:3000`);
+const socket = io('', {transports: ['websocket']});
 
 let players = [];
 let clientPlayers = {};
-let plats = [];
+let plats = []; 
 
 socket.on("connect", () => {
 	console.log("connected");
 })
-
+ 
 socket.on("map", (map) => {
 	plats = map;
 	for (var i = 0; i < plats.length; i++) {
