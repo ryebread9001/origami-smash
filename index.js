@@ -176,7 +176,6 @@ function tick() {
 
         checkCollisionForPlayer(player, map);
     }
-    //console.log(players);
     // return to client
     io.emit("players", players);
 }
@@ -206,7 +205,17 @@ io.on("connect", (socket) => {
     })
 
     socket.on("disconnect", () => {
-        players = players.filter((player) => player.id !== socket.id);
+        let disconnectedId;
+        players = players.filter((player) => {
+            if (player.id !== socket.id) {
+                return true;
+            } else {
+                disconnectedId = player.id;
+                return false;
+            }
+        });
+        io.emit("playerDisconnect", disconnectedId);
+        console.log(players);
         console.log('Socket disconnected');
     })
 })

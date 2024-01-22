@@ -22,6 +22,18 @@ socket.on("map", (map) => {
 	}
 })
 
+socket.on("playerDisconnect", (disconnectedID) => {
+	console.log("player Disconnect ", disconnectedID);
+	clientPlayers =  Object.keys(clientPlayers).filter(id =>
+		id !== disconnectedID).reduce((newObj, id) =>
+		{
+			newObj[id] = clientPlayers[id];
+			return newObj;
+		}, {}
+	);
+	console.log(clientPlayers);
+})
+
 socket.on("players", (serverPlayers) => {
 
 	for (var i = 0; i < serverPlayers.length; i++) {
@@ -31,6 +43,9 @@ socket.on("players", (serverPlayers) => {
 			clientPlayers[serverPlayers[i].id].updateFromServer(serverPlayers[i])
 		}
 	}
+	let numActive = Object.keys(clientPlayers).length;
+	activePlayers.innerText = numActive;
+	
 })
 
 var canvas = document.getElementById("imgCanvas");
@@ -39,7 +54,6 @@ canvas.width = 1000;
 canvas.height = 1000;
 let width = canvas.width;
 let height = canvas.height;
-//const colors = {'red', 'purple', 'green', 'blue', 'orange'};
 
 let player = document.getElementById('player'); // image refs
 let cliff = document.getElementById('cliff');
@@ -47,12 +61,13 @@ let grass = document.getElementById('grass');
 let grass2 = document.getElementById('grass2');
 let grass3 = document.getElementById('grass3');
 let grass4 = document.getElementById('grass4');
+const activePlayers = document.getElementById('active-players');
+const score = document.getElementById('score');
 
 const controlMapper = {
 	'main' : { left: false, up: false, right: false, down: false },
 	'second' : { left: false, up: false, right: false, down: false }
 }
-// 65, 87, 68, 85
 const friction = 0.75;
 let tileNum = 25;
 let tileSize = width / tileNum;
@@ -90,7 +105,7 @@ function Player(x, y, xSpeed, ySpeed, color, playerID) {
 	this.drawFrame = function() {
 		this.frameCount++;
 		
-		if (this.frameCount%7==0) {
+		if (this.frameCount%5==0) {
 			if (Math.abs(this.xSpeed) > 0.5 || Math.abs(this.ySpeed) > 0.5) {
 				if (this.cycle == 3) {
 					this.cycle = 0;
@@ -167,10 +182,8 @@ function drawGrass() {
 					0, 0, 76, 76,
 					i*tileSize, j*tileSize, 76, 76);
 			}
-			
 		}
 	}
-	
 }
 
 function draw() {
@@ -182,11 +195,9 @@ function draw() {
 			clientPlayers[player].update();
 		}
 	}
-	
 }
 
 document.body.onload = function() {
-
   function gameLoop() {
     draw();
     window.requestAnimationFrame(gameLoop);
@@ -199,28 +210,28 @@ function getRandomInt(min,max) {
 }
 
 function keyDownHandler(event) {
-	if (event.keyCode === 39) {
+	if (event.keyCode === 39 || event.keyCode === 68) {
 		controlMapper.main.right = true;
-	} else if (event.keyCode === 37) {
+	} else if (event.keyCode === 37 || event.keyCode === 65) {
 		controlMapper.main.left = true;
 	}
-	if (event.keyCode === 40) {
+	if (event.keyCode === 40 || event.keyCode === 83) {
 		controlMapper.main.down = true;
-	} else if (event.keyCode === 38) {
+	} else if (event.keyCode === 38 || event.keyCode === 87) {
 		controlMapper.main.up = true;
 	}
 	socket.emit('inputs', controlMapper.main);
 }
 
 function keyUpHandler(event) {
-	if (event.keyCode === 39) {
+	if (event.keyCode === 39 || event.keyCode === 68) {
 		controlMapper.main.right = false;
-	} else if (event.keyCode === 37) {
+	} else if (event.keyCode === 37 || event.keyCode === 65) {
 		controlMapper.main.left = false;
 	}
-	if (event.keyCode === 40) {
+	if (event.keyCode === 40 || event.keyCode === 83) {
 		controlMapper.main.down = false;
-	} else if (event.keyCode === 38) {
+	} else if (event.keyCode === 38 || event.keyCode === 87) {
 		controlMapper.main.up = false;
 	}
 	socket.emit('inputs', controlMapper.main);
