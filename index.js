@@ -135,7 +135,7 @@ function checkCollisionForPlayer(player, plats) {
                 //console.log('Top');
                 triggered = true;
             }
-            console.log(triggered);
+            //(triggered);
         }
     }
 }
@@ -189,7 +189,8 @@ io.on("connect", (socket) => {
         xSpeed: 0,
         ySpeed: 0,
         dir: 0,
-        size: playerSize
+        size: playerSize,
+        name: ""
     });
     inputsMap[socket.id] = {
         left: false,
@@ -202,6 +203,12 @@ io.on("connect", (socket) => {
     socket.on("inputs", (inputs) => {
         // console.log(socket.id, inputs);
         inputsMap[socket.id] = inputs;
+    })
+
+    socket.on("name", (name) => {
+        console.log(name);
+        console.log(players.find((plyr)=>plyr.id==socket.id))
+        players.find((plyr)=>plyr.id==socket.id).name = name;
     })
 
     socket.on("disconnect", () => {

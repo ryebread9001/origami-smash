@@ -2,10 +2,13 @@ const socket = io('', {transports: ['websocket']});
 
 let players = [];
 let clientPlayers = {};
-let plats = []; 
+let plats = [];
+let clientPlayerId = "Unknown Player";
+
 
 socket.on("connect", () => {
-	console.log("connected");
+	console.log("connected", socket.id);
+	clientPlayerId = socket.id;
 })
  
 socket.on("map", (map) => {
@@ -38,7 +41,7 @@ socket.on("players", (serverPlayers) => {
 
 	for (var i = 0; i < serverPlayers.length; i++) {
 		if (!(serverPlayers[i].id in clientPlayers)) {
-			clientPlayers[serverPlayers[i].id] = new Player(500-(playerSize/2), 500-(playerSize/2), 0, 0, 'red', 'main')
+			clientPlayers[serverPlayers[i].id] = new Player(500-(playerSize/2), 500-(playerSize/2), 0, 0, 'red', serverPlayers[i].id)
 		} else {
 			clientPlayers[serverPlayers[i].id].updateFromServer(serverPlayers[i])
 		}
@@ -63,6 +66,12 @@ let grass3 = document.getElementById('grass3');
 let grass4 = document.getElementById('grass4');
 const activePlayers = document.getElementById('active-players');
 const score = document.getElementById('score');
+const usernameInput = document.getElementById("username-input");
+
+usernameInput.addEventListener("keyup", (e) => {
+	clientPlayers[clientPlayerId].name = usernameInput.value;
+	socket.emit("name", usernameInput.value);
+})
 
 const controlMapper = {
 	'main' : { left: false, up: false, right: false, down: false },
@@ -96,6 +105,7 @@ function Player(x, y, xSpeed, ySpeed, color, playerID) {
 	this.dir = 0;
 	this.cycle = 0;
 	this.frameCount = 0;
+	this.name = "";
 
 	this.drawCharacter = function() {
 		context.fillStyle = this.color;
@@ -123,16 +133,24 @@ function Player(x, y, xSpeed, ySpeed, color, playerID) {
 		this.xCenter-(this.size/2), this.yCenter-(this.size/2), this.size, this.size);
 	}
 
+	this.drawName = function() {
+		context.font = "small-caps 16px sans-serif";
+		context.textAlign = "center"
+  		context.fillText(this.name, this.xCenter-this.size/4, this.yCenter-this.size*0.75);
+	}
+
 	this.updateFromServer = function(serverPlayer) {
 		this.xCenter = serverPlayer.xCenter;
 		this.yCenter = serverPlayer.yCenter;
 		this.xSpeed = serverPlayer.xSpeed;
 		this.ySpeed = serverPlayer.ySpeed;
 		this.dir = serverPlayer.dir;
+		if (serverPlayer.name) this.name = serverPlayer.name;
 	}
 
   	this.update = function() {	
 		this.drawFrame();
+		this.drawName();
 	}
 }
 
