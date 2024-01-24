@@ -10,21 +10,32 @@
 </div>
 <body class="bg-dark">
   <div class="containter">
-    <div class="row">
+    <div class="row p-3">
       <div class="col">
         <div class="mx-auto p-2 text-light">
           <span>ACTIVE PLAYERS: </span><span id="active-players">0</span><br>
           <span>SCORE: </span><span id="score">0</span>
         </div>
         <div class="mx-auto p-2 text-light">
-          <input id="username-input" type="text" class="form-control" placeholder="Username">
+          <input id="username-input" type="text" class="form-control" placeholder="Username" maxlength="15">
         </div>
       </div>
       <div class="col p-2 mx-auto">
         <canvas id="imgCanvas"></canvas>
       </div>
       <div class="col">
-        
+        <div class="mx-auto p-2 text-light border mw-15" style="max-width:15vw; max-height: 75vh;">
+          <div id="messages" class="overflow-hidden">
+          </div>
+          <hr>
+          <form id="chat-form" class="form-inline">
+            <div class="form-group m-2" >
+              <label for="chat-input" class="sr-only">Type to chat</label>
+              <input type="text" class="form-control" id="chat-input" placeholder="Type to chat" style="width:10vw;" maxlength="50"></input>
+            </div>
+            <div id="chat-submit" type="button" class="btn btn-primary m-2">Send</div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

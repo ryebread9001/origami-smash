@@ -5,6 +5,28 @@ let clientPlayers = {};
 let plats = [];
 let clientPlayerId = "Unknown Player";
 
+const messages = document.getElementById("messages");
+const chatInput = document.getElementById("chat-input");
+const chatSubmit = document.getElementById("chat-submit");
+const chatForm = document.getElementById("chat-form");
+
+function sendMsg() {
+	console.log("chatSubmit: ", chatSubmit);
+	let obj = {}
+	obj.msg = chatInput.value;
+	socket.emit("chat", obj);
+	chatInput.value = "";
+}
+
+chatSubmit.addEventListener("click", (e)=>{
+	e.preventDefault();
+	sendMsg();
+}, false);
+
+chatForm.addEventListener('submit', (e) => {
+	e.preventDefault();
+	sendMsg();
+}, false);
 
 socket.on("connect", () => {
 	console.log("connected", socket.id);
@@ -37,6 +59,16 @@ socket.on("playerDisconnect", (disconnectedID) => {
 	console.log(clientPlayers);
 })
 
+socket.on("newChat", (chat) => {
+	let newChatSpan = document.createElement('p');
+	newChatSpan.innerText = chat.name + ": " + chat.msg;
+	messages.appendChild(newChatSpan);
+	if (messages.children.length > 6) {
+		messages.children[0].remove();
+	}
+	//messages.appendChild(document.createElement('br'));
+})
+
 socket.on("players", (serverPlayers) => {
 
 	for (var i = 0; i < serverPlayers.length; i++) {
@@ -67,6 +99,7 @@ let grass4 = document.getElementById('grass4');
 const activePlayers = document.getElementById('active-players');
 const score = document.getElementById('score');
 const usernameInput = document.getElementById("username-input");
+
 
 usernameInput.addEventListener("keyup", (e) => {
 	clientPlayers[clientPlayerId].name = usernameInput.value;
@@ -228,31 +261,35 @@ function getRandomInt(min,max) {
 }
 
 function keyDownHandler(event) {
-	if (event.keyCode === 39 || event.keyCode === 68) {
-		controlMapper.main.right = true;
-	} else if (event.keyCode === 37 || event.keyCode === 65) {
-		controlMapper.main.left = true;
+	if (chatInput != document.activeElement && usernameInput != document.activeElement) {
+		if (event.keyCode === 39 || event.keyCode === 68) {
+			controlMapper.main.right = true;
+		} else if (event.keyCode === 37 || event.keyCode === 65) {
+			controlMapper.main.left = true;
+		}
+		if (event.keyCode === 40 || event.keyCode === 83) {
+			controlMapper.main.down = true;
+		} else if (event.keyCode === 38 || event.keyCode === 87) {
+			controlMapper.main.up = true;
+		}
+		socket.emit('inputs', controlMapper.main);
 	}
-	if (event.keyCode === 40 || event.keyCode === 83) {
-		controlMapper.main.down = true;
-	} else if (event.keyCode === 38 || event.keyCode === 87) {
-		controlMapper.main.up = true;
-	}
-	socket.emit('inputs', controlMapper.main);
 }
 
 function keyUpHandler(event) {
-	if (event.keyCode === 39 || event.keyCode === 68) {
-		controlMapper.main.right = false;
-	} else if (event.keyCode === 37 || event.keyCode === 65) {
-		controlMapper.main.left = false;
+	if (chatInput != document.activeElement && usernameInput != document.activeElement) {
+		if (event.keyCode === 39 || event.keyCode === 68) {
+			controlMapper.main.right = false;
+		} else if (event.keyCode === 37 || event.keyCode === 65) {
+			controlMapper.main.left = false;
+		}
+		if (event.keyCode === 40 || event.keyCode === 83) {
+			controlMapper.main.down = false;
+		} else if (event.keyCode === 38 || event.keyCode === 87) {
+			controlMapper.main.up = false;
+		}
+		socket.emit('inputs', controlMapper.main);
 	}
-	if (event.keyCode === 40 || event.keyCode === 83) {
-		controlMapper.main.down = false;
-	} else if (event.keyCode === 38 || event.keyCode === 87) {
-		controlMapper.main.up = false;
-	}
-	socket.emit('inputs', controlMapper.main);
 }
 
 document.addEventListener("keydown", keyDownHandler, false);

@@ -205,10 +205,31 @@ io.on("connect", (socket) => {
         inputsMap[socket.id] = inputs;
     })
 
+    var foundPlayer = players.find((plyr)=>plyr.id==socket.id)
+
     socket.on("name", (name) => {
         console.log(name);
-        console.log(players.find((plyr)=>plyr.id==socket.id))
-        players.find((plyr)=>plyr.id==socket.id).name = name;
+        if (foundPlayer) {
+            if (name.length < 20) {
+                foundPlayer.name = name;
+            } else {
+                foundPlayer.name = socket.id;
+            }
+        }
+    })
+
+    socket.on("chat", (chat) => {
+        console.log(chat);
+        if (foundPlayer && foundPlayer.name) {
+            if (foundPlayer.name.length > 16) {
+                chat.name = foundPlayer.name.substring(0,15);
+            } else {
+                chat.name = foundPlayer.name
+            }
+        } else {
+            chat.name = socket.id;
+        }
+        io.emit("newChat", chat);
     })
 
     socket.on("disconnect", () => {
