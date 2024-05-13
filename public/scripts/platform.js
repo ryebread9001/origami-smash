@@ -32,12 +32,12 @@ export function Platform(x, y, w, h, fS, type, grass, ctx, path) {
 
 			let xSpeed = (this.path[nextPoint].x - this.rect.x > 0) ? 1 : -1;
 			let ySpeed = (this.path[nextPoint].y - this.rect.y > 0) ? 1 : -1;
-			console.log("this.path[].x: ", this.path[nextPoint].x);
-			console.log("this.rect.x: ", this.rect.x);
-			console.log("xSpeed: ", xSpeed);
-			console.log("this.path[].y: ", this.path[nextPoint].y);
-			console.log("this.rect.y: ", this.rect.y);
-			console.log("ySpeed: ", ySpeed);
+			// console.log("this.path[].x: ", this.path[nextPoint].x);
+			// console.log("this.rect.x: ", this.rect.x);
+			// console.log("xSpeed: ", xSpeed);
+			// console.log("this.path[].y: ", this.path[nextPoint].y);
+			// console.log("this.rect.y: ", this.rect.y);
+			// console.log("ySpeed: ", ySpeed);
 			this.rect.x += xSpeed;
 			this.rect.y += ySpeed;
 			if (Math.abs(this.path[nextPoint].x - this.rect.x) < 2 && Math.abs(this.path[nextPoint].y - this.rect.y) < 2) {
