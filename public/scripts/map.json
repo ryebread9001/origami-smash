@@ -1,0 +1,192 @@
+{
+    "map1": {
+        "spawn": {
+            "x": 350,
+            "y": 250
+        },
+        "platforms": [
+            {
+                "name": "left cube",
+                "x": 50,
+                "y": 480,
+                "w": 70,
+                "h": 70,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": false,
+                "context": "context"
+            },{
+                "name": "right cube",
+                "x": 200,
+                "y": 480,
+                "w": 70,
+                "h": 70,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": false,
+                "context": "context"
+            },{
+                "name": "bridge",
+                "x": 50,
+                "y": 480,
+                "w": 220,
+                "h": 30,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context"
+            },{
+                "name": "pillar plat top",
+                "x": 320,
+                "y": 320,
+                "w": 60,
+                "h": 40,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context"
+            },{
+                "name": "pillar plat bottom",
+                "x": 370,
+                "y": 480,
+                "w": 30,
+                "h": 190,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context"
+            },{
+                "name": "middle plat",
+                "x": 520,
+                "y": 390,
+                "w": 180,
+                "h": 40,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context"
+            },{
+                "name": "middle plat hook",
+                "x": 560,
+                "y": 410,
+                "w": 100,
+                "h": 70,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": false,
+                "context": "context"
+            },{
+                "name": "sky pillar",
+                "x": 190,
+                "y": 150,
+                "w": 30,
+                "h": 140,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context"
+            },{
+                "name": "upper",
+                "x": 360,
+                "y": 130,
+                "w": 150,
+                "h": 60,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context"
+            }
+        ]
+    },
+    "map2": {
+        "spawn": {
+            "x": 300,
+            "y": 275
+        },
+        "platforms": [
+            {
+                "name": "left plat",
+                "x": 65,
+                "y": 310,
+                "w": 100,
+                "h": 30,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context",
+                "move": false
+            },{
+                "name": "right plat",
+                "x": 435,
+                "y": 310,
+                "w": 100,
+                "h": 30,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context",
+                "move": false
+            },{
+                "name": "stage",
+                "x": 150,
+                "y": 400,
+                "w": 300,
+                "h": 30,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context",
+                "move": false
+            },{
+                "name": "stage bottom",
+                "x": 225,
+                "y": 430,
+                "w": 150,
+                "h": 100,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": false,
+                "context": "context",
+                "move": false
+            },{
+                "name": "sky bridge",
+                "x": 250,
+                "y": 240,
+                "w": 100,
+                "h": 30,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context",
+                "move": false
+            },{
+                "name": "sky bridge pillar",
+                "x": 285,
+                "y": 190,
+                "w": 30,
+                "h": 70,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context",
+                "move": false
+            },
+            {
+                "name": "moving plat",
+                "x": 150,
+                "y": 100,
+                "w": 60,
+                "h": 30,
+                "fS": "dirtGrad",
+                "type": "",
+                "grass": true,
+                "context": "context",
+                "move": true,
+                "path": [
+                    {"x": 150, "y":100},
+                    {"x": 450, "y":100}
+                ]
+            }
+        ]
+    }
+}

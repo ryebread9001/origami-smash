@@ -3,23 +3,33 @@ body {
   overflow: hidden;
 }
 
-#imgCanvas {
+canvas {
     border: none;
-    z-index: 2;
-    filter: grayscale(7%) hue-rotate(-10deg) contrast(100%) sepia(10%);
     border: 5px solid black;
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
+    position: absolute;
+
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
-    display:block;
+    display:absolute;
 }
 
 #messages {
   min-height: 50vh;
 }
 
+#stage {
+  width: 600px;
+  height: 600px;
+}
+
+#ui-layer {
+  z-index: 3;
+}
+#game-layer {
+  z-index: 2;
+}
+#background-layer {
+  z-index: 1;
+}
